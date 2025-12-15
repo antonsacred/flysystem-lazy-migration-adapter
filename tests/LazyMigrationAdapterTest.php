@@ -150,6 +150,10 @@ final class LazyMigrationAdapterTest extends TestCase
 
     public function testDirectoryExistsMigratesDirectory(): void
     {
+        if (!method_exists(FilesystemAdapter::class, 'directoryExists')) {
+            $this->markTestSkipped('directoryExists not available on this Flysystem version');
+        }
+
         $path = 'dir';
         $this->oldAdapter->expects($this->once())->method('directoryExists')->with($path)->willReturn(true);
         $this->newAdapter
@@ -163,6 +167,10 @@ final class LazyMigrationAdapterTest extends TestCase
 
     public function testDirectoryExistsWhenOnlyNewAdapterHasDirectory(): void
     {
+        if (!method_exists(FilesystemAdapter::class, 'directoryExists')) {
+            $this->markTestSkipped('directoryExists not available on this Flysystem version');
+        }
+
         $path = 'dir';
         $this->oldAdapter->expects($this->once())->method('directoryExists')->with($path)->willReturn(false);
         $this->newAdapter->expects($this->once())->method('directoryExists')->with($path)->willReturn(true);
