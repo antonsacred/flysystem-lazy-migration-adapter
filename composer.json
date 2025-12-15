@@ -1,5 +1,5 @@
 {
-    "name": "antonsacred/flysystem-lazy-migration-adapter",
+    "name": "sacred/flysystem-lazy-migration-adapter",
     "description": "A Flysystem adapter that lazily migrates files from an old adapter to a new one as they are accessed.",
     "type": "library",
     "license": "MIT",
@@ -12,12 +12,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Antonsacred\\FlysystemLazyMigrationAdapter\\": "src/"
+            "Sacred\\FlysystemLazyMigrationAdapter\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Antonsacred\\FlysystemLazyMigrationAdapter\\Tests\\": "tests/"
+            "Sacred\\FlysystemLazyMigrationAdapter\\Tests\\": "tests/"
         }
     },
     "scripts": {
