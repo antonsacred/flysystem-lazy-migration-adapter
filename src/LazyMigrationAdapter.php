@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sacred\FlysystemLazyMigrationAdapter;
+namespace Sacred\Flysystem;
 
 use League\Flysystem\Config;
 use League\Flysystem\FileAttributes;

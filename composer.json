@@ -12,12 +12,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Sacred\\FlysystemLazyMigrationAdapter\\": "src/"
+            "Sacred\\Flysystem\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Sacred\\FlysystemLazyMigrationAdapter\\Tests\\": "tests/"
+            "Sacred\\Flysystem\\Tests\\": "tests/"
         }
     },
     "scripts": {

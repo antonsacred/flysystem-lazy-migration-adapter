@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Sacred\FlysystemLazyMigrationAdapter\Tests;
+namespace Sacred\Flysystem\Tests;
 
-use Sacred\FlysystemLazyMigrationAdapter\LazyMigrationAdapter;
+use Sacred\Flysystem\LazyMigrationAdapter;
 use League\Flysystem\Config;
 use League\Flysystem\FileAttributes;
 use League\Flysystem\FilesystemAdapter;
