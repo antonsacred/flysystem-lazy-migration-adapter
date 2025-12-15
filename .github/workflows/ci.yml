@@ -14,7 +14,13 @@ jobs:
         include:
           - php: "7.4"
             flysystem: "^2.0"
-          - php: "8.2"
+          - php: "8.0"
+            flysystem: "^2.0"
+          - php: "8.3"
+            flysystem: "^2.0"
+          - php: "8.0"
+            flysystem: "^3.0"
+          - php: "8.3"
             flysystem: "^3.0"
 
     steps:
