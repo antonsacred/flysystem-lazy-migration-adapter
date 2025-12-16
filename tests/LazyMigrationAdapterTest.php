@@ -255,6 +255,7 @@ final class LazyMigrationAdapterTest extends TestCase
 
         $this->oldAdapter->expects($this->once())->method('listContents')->with($path, false)->willReturn($oldItems);
         $this->newAdapter->expects($this->once())->method('listContents')->with($path, false)->willReturn($newItems);
+        $this->newAdapter->expects($this->exactly(2))->method('fileExists')->willReturnOnConsecutiveCalls(false, true);
 
         $expected = [
             new FileAttributes($path . '/a.txt'),

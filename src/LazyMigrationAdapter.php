@@ -151,17 +151,15 @@ final class LazyMigrationAdapter implements FilesystemAdapter
 
     public function listContents(string $path, bool $deep): iterable
     {
-        $newPaths = [];
-
         foreach ($this->oldAdapter->listContents($path, $deep) as $item) {
-            $newPaths[$item->path()] = true;
+            if ($this->newAdapter->fileExists($item->path())) {
+                continue;
+            }
             yield $item;
         }
 
         foreach ($this->newAdapter->listContents($path, $deep) as $item) {
-            if (!isset($newPaths[$item->path()])) {
-                yield $item;
-            }
+            yield $item;
         }
     }
 
