@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sacred\Flysystem\Tests;
 
 use League\Flysystem\AdapterTestUtilities\FilesystemAdapterTestCase;
+use League\Flysystem\Config;
 use League\Flysystem\FilesystemAdapter;
 use League\Flysystem\Local\LocalFilesystemAdapter;
 use Sacred\Flysystem\LazyMigrationAdapter;
@@ -92,6 +93,43 @@ final class LazyMigrationAdapterIntegrationTest extends FilesystemAdapterTestCas
         $this->assertSame($contents, file_get_contents(self::newAbsolutePath($path)));
     }
 
+    public function testListContentsMergesOldAndNewWithoutDuplicates(): void
+    {
+        $this->createOldFile('merged/only-old.txt', 'old');
+        $this->createOldFile('merged/both.txt', 'old-version');
+        $this->createNewFile('merged/only-new.txt', 'new');
+        $this->createNewFile('merged/both.txt', 'new-version');
+
+        $items = iterator_to_array($this->adapter()->listContents('merged', false));
+        $paths = array_map(static fn($item) => $item->path(), $items);
+        sort($paths);
+
+        $this->assertSame(
+            ['merged/both.txt', 'merged/only-new.txt', 'merged/only-old.txt'],
+            $paths
+        );
+    }
+
+    public function testListContentsDeepIncludesFilesFromOldAndNew(): void
+    {
+        $this->createOldFile('old-only/file.txt', 'old');
+        $this->createNewFile('new-only/file.txt', 'new');
+
+        $items = iterator_to_array($this->adapter()->listContents('', true));
+        $paths = array_map(static fn($item) => $item->path(), $items);
+        sort($paths);
+
+        $this->assertSame(
+            [
+                'new-only',
+                'new-only/file.txt',
+                'old-only',
+                'old-only/file.txt',
+            ],
+            $paths
+        );
+    }
+
     private static function createTempDirectory(string $suffix): string
     {
         $path = sys_get_temp_dir() . '/lazy-migration-' . $suffix . '-' . uniqid('', true);
@@ -111,6 +149,12 @@ final class LazyMigrationAdapterIntegrationTest extends FilesystemAdapterTestCas
         }
 
         file_put_contents($absolutePath, $contents);
+    }
+
+    private function createNewFile(string $relativePath, string $contents): void
+    {
+        $adapter = new LocalFilesystemAdapter(self::$newRoot);
+        $adapter->write($relativePath, $contents, new Config());
     }
 
     private static function oldAbsolutePath(string $relativePath): string
